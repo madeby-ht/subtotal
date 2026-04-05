@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUBTOTAL – From Land to Landmark</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--deep:#1B3F6B;--royal:#2563EB;--charcoal:#1E1E1E;--white:#FFFFFF;--light:#F5F5F5;--mid:#E8E8E8;--muted:#6B7280;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--charcoal);overflow-x:hidden;}
+.page{display:none;}
+.page.active{display:block;}
+.top-bar{background:var(--charcoal);padding:7px 5%;display:flex;justify-content:flex-end;}
+.top-bar a{font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;font-weight:600;font-family:'Syne',sans-serif;}
+nav{background:var(--deep);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:70px;position:sticky;top:0;z-index:100;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--white);letter-spacing:2px;cursor:pointer;}
+.logo span{color:var(--royal);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{color:rgba(255,255,255,0.72);text-decoration:none;font-size:14px;transition:color 0.2s;cursor:pointer;}
+.nav-links a:hover,.nav-links a.active{color:var(--white);}
+.nav-cta{background:var(--royal);color:var(--white);border:none;padding:10px 22px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;}
+.hero{background:var(--deep);color:var(--white);padding:100px 5% 90px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:500px;height:500px;border-radius:50%;background:rgba(37,99,235,0.15);}
+.hero::after{content:'';position:absolute;bottom:-100px;left:30%;width:300px;height:300px;border-radius:50%;background:rgba(37,99,235,0.08);}
+.hero-inner{max-width:700px;position:relative;z-index:1;animation:fadeUp 0.7s ease both;}
+.hero-badge{display:inline-block;background:rgba(37,99,235,0.25);color:#93c5fd;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:24px;}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(38px,6vw,64px);font-weight:800;line-height:1.1;margin-bottom:20px;}
+.hero h1 span{color:var(--royal);}
+.hero p{font-size:18px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:36px;max-width:520px;}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--royal);color:var(--white);padding:14px 28px;border-radius:8px;font-size:15px;font-weight:500;border:none;cursor:pointer;transition:background 0.2s;}
+.btn-primary:hover{background:#1d4ed8;}
+.btn-outline{background:transparent;color:var(--white);padding:14px 28px;border-radius:8px;font-size:15px;font-weight:500;border:1.5px solid rgba(255,255,255,0.3);cursor:pointer;}
+.btn-outline:hover{border-color:rgba(255,255,255,0.7);}
+.hero-stats{display:flex;gap:48px;margin-top:60px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.1);flex-wrap:wrap;}
+.stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;color:var(--white);}
+.stat-label{font-size:13px;color:rgba(255,255,255,0.5);margin-top:2px;}
+.services{padding:90px 5%;background:var(--white);}
+.section-header{text-align:center;margin-bottom:60px;}
+.section-tag{font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--royal);margin-bottom:12px;}
+.section-header h2{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:var(--deep);line-height:1.2;}
+.section-header p{color:var(--muted);margin-top:12px;font-size:16px;max-width:500px;margin-left:auto;margin-right:auto;}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;}
+.service-card{background:var(--white);border:1px solid var(--mid);border-radius:12px;padding:32px;transition:all 0.25s;cursor:pointer;}
+.service-card:hover{border-color:var(--royal);box-shadow:0 8px 32px rgba(37,99,235,0.1);transform:translateY(-3px);}
+.service-icon{width:52px;height:52px;background:#EFF6FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.service-card h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--deep);margin-bottom:10px;}
+.service-card p{font-size:14px;color:var(--muted);line-height:1.6;}
+.service-link{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:13px;font-weight:500;color:var(--royal);cursor:pointer;}
+.how{padding:90px 5%;background:var(--light);}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin-top:48px;}
+.step{text-align:center;}
+.step-num{width:48px;height:48px;background:var(--deep);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin:0 auto 16px;}
+.step h4{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--deep);margin-bottom:8px;}
+.step p{font-size:13px;color:var(--muted);line-height:1.6;}
+.cta-banner{background:var(--deep);padding:80px 5%;text-align:center;}
+.cta-banner h2{font-family:'Syne',sans-serif;font-size:clamp(26px,4vw,40px);font-weight:800;color:var(--white);margin-bottom:16px;}
+.cta-banner p{color:rgba(255,255,255,0.65);font-size:16px;margin-bottom:32px;}
+.cta-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+.page-hero{background:var(--deep);color:var(--white);padding:70px 5% 60px;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:400px;height:400px;border-radius:50%;background:rgba(37,99,235,0.15);}
+.breadcrumb{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:18px;}
+.breadcrumb a{color:rgba(255,255,255,0.45);text-decoration:none;cursor:pointer;}
+.breadcrumb span{margin:0 8px;}
+.page-hero h1{font-family:'Syne',sans-serif;font-size:clamp(30px,5vw,50px);font-weight:800;line-height:1.1;margin-bottom:14px;position:relative;z-index:1;}
+.page-hero h1 span{color:var(--royal);}
+.page-hero p{font-size:16px;color:rgba(255,255,255,0.65);max-width:520px;line-height:1.7;position:relative;z-index:1;}
+.search-section{background:var(--white);padding:24px 5%;border-bottom:1px solid var(--mid);}
+.search-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
+.search-field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:140px;}
+.search-field label{font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.search-field input,.search-field select{padding:11px 14px;border:1px solid var(--mid);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--charcoal);background:var(--white);outline:none;}
+.search-btn{background:var(--royal);color:var(--white);border:none;padding:12px 28px;border-radius:8px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;}
+.toolbar{padding:16px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--mid);}
+.toolbar-left{display:flex;gap:10px;flex-wrap:wrap;}
+.filter-btn{padding:7px 16px;border-radius:20px;border:1px solid var(--mid);background:var(--white);font-size:13px;font-family:'DM Sans',sans-serif;color:var(--charcoal);cursor:pointer;transition:all 0.2s;}
+.filter-btn:hover{border-color:var(--royal);color:var(--royal);}
+.filter-btn.active{background:var(--royal);color:var(--white);border-color:var(--royal);}
+.results-count{font-size:13px;color:var(--muted);}
+.listings-section{padding:40px 5% 70px;}
+.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:28px;}
+.listing-card{border:1px solid var(--mid);border-radius:14px;overflow:hidden;transition:all 0.25s;cursor:pointer;background:var(--white);}
+.listing-card:hover{border-color:var(--royal);box-shadow:0 10px 40px rgba(37,99,235,0.1);transform:translateY(-4px);}
+.listing-img{height:180px;position:relative;display:flex;align-items:center;justify-content:center;}
+.listing-img.p1{background:linear-gradient(160deg,#2d5a27,#1B3F6B);}
+.listing-img.p2{background:linear-gradient(160deg,#1B3F6B,#2563EB);}
+.listing-img.p3{background:linear-gradient(160deg,#0f4c2a,#1B3F6B);}
+.listing-img.p4{background:linear-gradient(160deg,#1e3a5f,#16a34a);}
+.listing-img.p5{background:linear-gradient(160deg,#1B3F6B,#0f2a47);}
+.listing-img.p6{background:linear-gradient(160deg,#2563EB,#1B3F6B);}
+.listing-badge{position:absolute;top:12px;left:12px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:20px;}
+.badge-featured{background:#fef9c3;color:#854d0e;}
+.badge-sale{background:#dcfce7;color:#15803d;}
+.listing-body{padding:20px;}
+.listing-location{font-size:12px;color:var(--muted);margin-bottom:8px;}
+.listing-body h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--deep);margin-bottom:6px;}
+.listing-price{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--royal);margin-bottom:12px;}
+.listing-details{display:flex;gap:14px;padding:10px 0;border-top:1px solid var(--mid);border-bottom:1px solid var(--mid);margin-bottom:12px;}
+.detail-label{font-size:11px;color:var(--muted);text-transform:uppercase;}
+.detail-value{font-size:13px;font-weight:500;color:var(--charcoal);}
+.listing-footer{display:flex;justify-content:space-between;align-items:center;}
+.listing-cta{background:var(--deep);color:var(--white);border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;}
+.listing-cta:hover{background:var(--royal);}
+.sell-banner{margin:0 5% 60px;background:var(--deep);border-radius:16px;padding:48px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
+.sell-banner h2{font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,30px);font-weight:800;color:var(--white);}
+.sell-banner p{color:rgba(255,255,255,0.6);font-size:14px;margin-top:6px;max-width:380px;}
+.btn-white{background:var(--white);color:var(--deep);padding:13px 26px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;white-space:nowrap;}
+.cs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;padding:60px 5%;}
+.cs-card{border:1px solid var(--mid);border-radius:14px;overflow:hidden;transition:all 0.25s;cursor:pointer;}
+.cs-card:hover{border-color:var(--royal);box-shadow:0 8px 32px rgba(37,99,235,0.1);transform:translateY(-3px);}
+.cs-img{height:160px;display:flex;align-items:center;justify-content:center;position:relative;}
+.cs-img.c1{background:linear-gradient(135deg,#1B3F6B,#2563EB);}
+.cs-img.c2{background:linear-gradient(135deg,#1E1E1E,#1B3F6B);}
+.cs-img.c3{background:linear-gradient(135deg,#2563EB,#1B3F6B);}
+.cs-img.c4{background:linear-gradient(135deg,#1B3F6B,#0f2a47);}
+.cs-img.c5{background:linear-gradient(135deg,#0f2a47,#2563EB);}
+.cs-img.c6{background:linear-gradient(135deg,#1E1E1E,#2563EB);}
+.cs-tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.15);color:var(--white);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;}
+.cs-body{padding:22px;}
+.cs-body h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--deep);margin-bottom:8px;}
+.cs-body p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.cs-meta{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--mid);}
+.cs-price{font-size:13px;color:var(--muted);}
+.cs-price strong{font-size:14px;color:var(--deep);}
+.cs-cta{background:var(--royal);color:var(--white);border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;}
+.contracts-layout{display:grid;grid-template-columns:1fr 320px;gap:36px;padding:40px 5% 60px;}
+.tabs{display:flex;border-bottom:2px solid var(--mid);margin-bottom:28px;}
+.tab{padding:11px 22px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;}
+.tab.active{color:var(--royal);border-bottom-color:var(--royal);}
+.contracts-list{display:flex;flex-direction:column;gap:18px;}
+.contract-card{border:1px solid var(--mid);border-radius:12px;padding:22px;cursor:pointer;transition:all 0.2s;}
+.contract-card:hover{border-color:var(--royal);box-shadow:0 4px 20px rgba(37,99,235,0.08);}
+.contract-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px;}
+.contract-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--deep);}
+.cbadge{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.cbadge-open{background:#dcfce7;color:#15803d;}
+.cbadge-review{background:#fef9c3;color:#854d0e;}
+.contract-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+.contract-meta{display:flex;gap:16px;flex-wrap:wrap;}
+.meta-item{font-size:12px;color:var(--muted);}
+.contract-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--mid);}
+.bids-count{font-size:13px;color:var(--muted);}
+.bids-count strong{color:var(--deep);}
+.view-btn{background:transparent;color:var(--royal);border:1px solid var(--royal);padding:7px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;}
+.view-btn:hover{background:var(--royal);color:var(--white);}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:7px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 13px;border:1px solid var(--mid);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--charcoal);outline:none;}
+.form-group textarea{resize:vertical;min-height:100px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.upload-box{border:2px dashed var(--mid);border-radius:10px;padding:28px;text-align:center;cursor:pointer;}
+.upload-box p{font-size:13px;color:var(--muted);}
+.upload-box span{color:var(--royal);font-weight:500;}
+.submit-btn{width:100%;background:var(--royal);color:var(--white);border:none;padding:14px;border-radius:8px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:6px;}
+.sidebar-card{background:var(--light);border-radius:12px;padding:22px;margin-bottom:20px;}
+.sidebar-card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--deep);margin-bottom:14px;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.stat-box{background:var(--white);border-radius:8px;padding:14px;text-align:center;}
+.stat-box .num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--deep);}
+.stat-box .lbl{font-size:11px;color:var(--muted);margin-top:2px;}
+.tip-item{display:flex;gap:10px;margin-bottom:12px;}
+.tip-num{width:22px;height:22px;background:var(--royal);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.tip-item p{font-size:13px;color:var(--muted);line-height:1.5;}
+.reg-cta{background:var(--deep);border-radius:12px;padding:22px;text-align:center;color:var(--white);}
+.reg-cta h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px;}
+.reg-cta p{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:14px;line-height:1.5;}
+.reg-cta button{width:100%;background:var(--royal);color:var(--white);border:none;padding:11px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;}
+.types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;padding:0 5% 50px;}
+.type-card{border:1px solid var(--mid);border-radius:12px;padding:24px;cursor:pointer;transition:all 0.25s;text-align:center;}
+.type-card:hover,.type-card.sel{border-color:var(--royal);box-shadow:0 4px 20px rgba(37,99,235,0.1);}
+.type-card.sel{background:#EFF6FF;}
+.type-icon{width:52px;height:52px;background:#EFF6FF;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.type-card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--deep);margin-bottom:6px;}
+.type-card p{font-size:13px;color:var(--muted);line-height:1.5;}
+.type-price{display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:var(--royal);}
+.experts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;padding:0 5% 60px;}
+.expert-card{background:var(--white);border:1px solid var(--mid);border-radius:12px;padding:22px;transition:all 0.25s;cursor:pointer;}
+.expert-card:hover{border-color:var(--royal);box-shadow:0 4px 20px rgba(37,99,235,0.08);}
+.expert-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--white);margin-bottom:12px;}
+.av-a{background:linear-gradient(135deg,#1B3F6B,#2563EB);}
+.av-b{background:linear-gradient(135deg,#1E1E1E,#1B3F6B);}
+.av-c{background:linear-gradient(135deg,#2563EB,#0f2a47);}
+.av-d{background:linear-gradient(135deg,#0f4c2a,#1B3F6B);}
+.expert-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--deep);margin-bottom:3px;}
+.expert-role{font-size:13px;color:var(--royal);margin-bottom:10px;}
+.expert-bio{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.expert-meta{display:flex;justify-content:space-between;padding-top:12px;border-top:1px solid var(--mid);}
+.expert-rating{font-size:13px;font-weight:500;}
+.expert-rate{font-size:13px;color:var(--muted);}
+.expert-rate strong{color:var(--deep);}
+.book-btn{width:100%;background:var(--royal);color:var(--white);border:none;padding:10px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;margin-top:12px;}
+.booking-layout{display:grid;grid-template-columns:1fr 320px;gap:36px;padding:40px 5% 60px;align-items:start;}
+.booking-form h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--deep);margin-bottom:6px;}
+.booking-form>p{font-size:14px;color:var(--muted);margin-bottom:24px;}
+.slots-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;}
+.slot{padding:9px 4px;border:1px solid var(--mid);border-radius:7px;font-size:12px;font-weight:500;text-align:center;cursor:pointer;transition:all 0.2s;}
+.slot:hover{border-color:var(--royal);color:var(--royal);}
+.slot.sel{background:var(--royal);color:var(--white);border-color:var(--royal);}
+.slot.na{background:var(--light);color:var(--mid);cursor:not-allowed;}
+.summary-card{background:var(--deep);border-radius:14px;padding:26px;color:var(--white);margin-bottom:18px;}
+.summary-card h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:18px;}
+.summary-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.1);font-size:13px;}
+.summary-row:last-of-type{border-bottom:none;}
+.s-label{color:rgba(255,255,255,0.55);}
+.s-value{color:var(--white);font-weight:500;}
+.summary-total{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.2);display:flex;justify-content:space-between;align-items:center;}
+.summary-total span{font-size:13px;color:rgba(255,255,255,0.6);}
+.summary-total strong{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
+.faq-card{background:var(--light);border-radius:12px;padding:20px;}
+.faq-card h3{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--deep);margin-bottom:14px;}
+.faq-item{margin-bottom:12px;}
+.faq-q{font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:3px;}
+.faq-a{font-size:12px;color:var(--muted);line-height:1.5;}
+.auth-layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 110px);}
+.auth-left{background:var(--deep);padding:60px 5%;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;}
+.auth-left::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:rgba(37,99,235,0.15);}
+.auth-left::after{content:'';position:absolute;bottom:-100px;left:-40px;width:300px;height:300px;border-radius:50%;background:rgba(37,99,235,0.08);}
+.left-inner{position:relative;z-index:1;max-width:400px;}
+.left-badge{display:inline-block;background:rgba(37,99,235,0.25);color:#93c5fd;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:22px;}
+.left-inner h2{font-family:'Syne',sans-serif;font-size:clamp(26px,3.5vw,38px);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:14px;}
+.left-inner h2 span{color:var(--royal);}
+.left-inner>p{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.75;margin-bottom:30px;}
+.benefits{display:flex;flex-direction:column;gap:14px;}
+.benefit{display:flex;align-items:flex-start;gap:12px;}
+.benefit-icon{width:30px;height:30px;background:rgba(37,99,235,0.25);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.benefit-text h4{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px;}
+.benefit-text p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;}
+.auth-right{background:var(--white);padding:50px 8%;display:flex;flex-direction:column;justify-content:center;}
+.auth-tabs{display:flex;border-bottom:2px solid var(--mid);margin-bottom:28px;}
+.auth-tab{padding:11px 22px;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;}
+.auth-tab.active{color:var(--royal);border-bottom-color:var(--royal);}
+.role-selector{margin-bottom:20px;}
+.role-selector label{font-size:13px;font-weight:500;color:var(--charcoal);display:block;margin-bottom:10px;}
+.role-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.role-opt{border:1px solid var(--mid);border-radius:9px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.role-opt:hover{border-color:var(--royal);}
+.role-opt.sel{border-color:var(--royal);background:#EFF6FF;}
+.role-opt span{font-size:12px;font-weight:500;color:var(--charcoal);display:block;margin-top:5px;}
+.role-opt.sel span{color:var(--royal);}
+.password-wrap{position:relative;}
+.password-wrap input{padding-right:44px;}
+.toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);}
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;}
+.checkbox-row input[type=checkbox]{margin-top:2px;accent-color:var(--royal);width:15px;height:15px;flex-shrink:0;}
+.checkbox-row label{font-size:13px;color:var(--muted);line-height:1.5;}
+.checkbox-row a{color:var(--royal);}
+.auth-submit{width:100%;background:var(--royal);color:var(--white);border:none;padding:14px;border-radius:8px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:14px;}
+.divider{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--mid);}
+.divider span{font-size:12px;color:var(--muted);}
+.social-btn{width:100%;background:var(--white);color:var(--charcoal);border:1px solid var(--mid);padding:11px;border-radius:8px;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;}
+.switch-text{text-align:center;font-size:13px;color:var(--muted);margin-top:14px;}
+.switch-text a{color:var(--royal);font-weight:500;cursor:pointer;}
+.forgot-row{display:flex;justify-content:flex-end;margin-top:-8px;margin-bottom:16px;}
+.forgot-row a{font-size:13px;color:var(--royal);}
+footer{background:var(--charcoal);color:rgba(255,255,255,0.5);padding:48px 5% 24px;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:32px;margin-bottom:40px;}
+.footer-brand .footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--white);letter-spacing:2px;}
+.footer-brand .footer-logo span{color:var(--royal);}
+.footer-brand .ent-tag a{font-size:11px;font-weight:700;font-family:'Syne',sans-serif;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;}
+.footer-brand p{font-size:13px;color:rgba(255,255,255,0.35);margin-top:12px;max-width:220px;line-height:1.6;}
+.footer-col h5{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,0.6);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;margin-bottom:10px;cursor:pointer;}
+.footer-col a:hover{color:var(--white);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.footer-bottom p{font-size:12px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="top-bar"><a href="#" onclick="goTo('home')">SUBTOTAL ENTERPRISE</a></div>
+<nav>
+  <div class="logo" onclick="goTo('home')">SUB<span>TOTAL</span></div>
+  <ul class="nav-links">
+    <li><a onclick="goTo('construction')" id="nav-construction">Construction</a></li>
+    <li><a onclick="goTo('land')" id="nav-land">Land</a></li>
+    <li><a onclick="goTo('contracts')" id="nav-contracts">Contracts</a></li>
+    <li><a onclick="goTo('consult')" id="nav-consult">Consult</a></li>
+  </ul>
+  <button class="nav-cta" onclick="goTo('auth')">Get Started</button>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Uganda's Construction Platform</div>
+      <h1>From Land<br>to <span>Landmark.</span></h1>
+      <p>Buy land, find contractors, post projects, hire professionals — everything you need to build, all in one place.</p>
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="goTo('construction')">Explore Services</button>
+        <button class="btn-outline" onclick="goTo('contracts')">Post a Project</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Land Listings</div></div>
+        <div class="stat-item"><div class="stat-num">200+</div><div class="stat-label">Verified Contractors</div></div>
+        <div class="stat-item"><div class="stat-num">1,000+</div><div class="stat-label">Projects Completed</div></div>
+        <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Field Professionals</div></div>
+      </div>
+    </div>
+  </section>
+  <section class="services">
+    <div class="section-header">
+      <div class="section-tag">What We Offer</div>
+      <h2>Everything Built. Everything Listed.</h2>
+      <p>Powerful services connecting Uganda's construction and real estate industry.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" onclick="goTo('construction')"><div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg></div><h3>Construction Services</h3><p>From architectural design to full builds — find the right professionals for your project.</p><div class="service-link">Start Building →</div></div>
+      <div class="service-card" onclick="goTo('land')"><div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><h3>Land Listings</h3><p>Buy or sell land across Uganda. Browse verified plots and connect with sellers.</p><div class="service-link">Browse Land →</div></div>
+      <div class="service-card" onclick="goTo('contracts')"><div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div><h3>Post a Contract</h3><p>Have a project? Post it and receive bids from qualified, verified contractors.</p><div class="service-link">Post Contract →</div></div>
+      <div class="service-card" onclick="goTo('consult')"><div class="service-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><h3>Consultation</h3><p>Get expert advice on planning, land law, budgeting, and project management.</p><div class="service-link">Book a Session →</div></div>
+    </div>
+  </section>
+  <section class="how">
+    <div class="section-header">
+      <div class="section-tag">How It Works</div>
+      <h2>Simple. Fast. Trusted.</h2>
+      <p>Getting started on SUBTOTAL takes minutes.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h4>Create an Account</h4><p>Sign up as a client, contractor, or professional in under 2 minutes.</p></div>
+      <div class="step"><div class="step-num">2</div><h4>List or Browse</h4><p>Post your land, project, or service — or browse what's available.</p></div>
+      <div class="step"><div class="step-num">3</div><h4>Connect & Negotiate</h4><p>Message directly, compare bids, and agree on terms within the platform.</p></div>
+      <div class="step"><div class="step-num">4</div><h4>Build with Confidence</h4><p>Work with verified professionals and track your project from start to finish.</p></div>
+    </div>
+  </section>
+  <section class="cta-banner">
+    <h2>Ready to Build Something Great?</h2>
+    <p>Join thousands of clients, contractors, and professionals already on SUBTOTAL.</p>
+    <div class="cta-buttons"><button class="btn-primary" onclick="goTo('auth')">Create Free Account</button><button class="btn-outline" onclick="goTo('consult')">Talk to Us</button></div>
+  </section>
+  <footer><div class="footer-top"><div class="footer-brand"><div class="footer-logo">SUB<span>TOTAL</span></div><div class="ent-tag"><a href="#">SUBTOTAL ENTERPRISE</a></div><p>From Land to Landmark. Uganda's construction and real estate platform.</p></div><div class="footer-col"><h5>Services</h5><a onclick="goTo('land')">Land Listings</a><a onclick="goTo('construction')">Construction</a><a onclick="goTo('contracts')">Post a Contract</a><a onclick="goTo('consult')">Consultation</a></div><div class="footer-col"><h5>Company</h5><a href="#">About Us</a><a href="#">SUBTOTAL Enterprise</a><a href="#">Careers</a></div><div class="footer-col"><h5>Support</h5><a href="#">Contact Us</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">FAQ</a></div></div><div class="footer-bottom"><p>© 2025 SUBTOTAL. A SUBTOTAL Enterprise Company. All rights reserved.</p><p>Kampala, Uganda</p></div></footer>
+</div>
+
+<!-- CONSTRUCTION -->
+<div class="page" id="page-construction">
+  <section class="page-hero"><div class="breadcrumb"><a onclick="goTo('home')">Home</a><span>›</span> Construction Services</div><h1>Construction <span>Services</span></h1><p>From architectural blueprints to full builds — find the right construction service for your project.</p></section>
+  <div class="cs-grid">
+    <div class="cs-card"><div class="cs-img c1"><span class="cs-tag">Design</span><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" opacity=".8"><path d="M2 20h20M4 20V10l8-8 8 8v10"/><path d="M9 20v-6h6v6"/></svg></div><div class="cs-body"><h3>Architectural Design</h3><p>Professional floor plans, 3D renderings, and full architectural drawings for residential and commercial projects.</p><div class="cs-meta"><div class="cs-price">From <strong>UGX 500,000</strong></div><button class="cs-cta">Request Quote</button></div></div></div>
+    <div class="cs-card"><div class="cs-img c2"><span class="cs-tag">Build</span><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" opacity=".8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div><div class="cs-body"><h3>Full Construction Build</h3><p>End-to-end construction from foundation to finishing. Residential homes, commercial buildings, and mixed-use structures.</p><div class="cs-meta"><div class="cs-price">From <strong>UGX 50,000,000</strong></div><button class="cs-cta">Request Quote</button></div></div></div>
+    <div class="cs-card"><div class="cs-img c3"><span class="cs-tag">Design</span><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" opacity=".8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="cs-body"><h3>Interior Design</h3><p>Transform your space with expert interior design — layouts, finishes, furniture, and full décor planning.</p><div class="cs-meta"><div class="cs-price">From <strong>UGX 800,000</strong></div><button class="cs-cta">Request Quote</button></div></div></div>
+    <div class="cs-card"><div class="cs-img c4"><span class="cs-tag">Renovation</span><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" opacity=".8"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><div class="cs-body"><h3>Renovation & Remodelling</h3><p>Upgrade existing structures — kitchen remodels, bathroom upgrades, extensions, and full property renovations.</p><div class="cs-meta"><div class="cs-price">From <strong>UGX 5,000,000</strong></div><button class="cs-cta">Request Quote</button></div></div></div>
+    <div class="cs-card"><div class="cs-img c5"><span class="cs-tag">Surveying</span><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" opacity=".8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="cs-body"><h3>Land & Building Surveys</h3><p>Licensed surveyors for boundary marking, topographic surveys, structural assessments, and building inspections.</p><div class="cs-meta"><div class="cs-price">From <strong>UGX 1,200,000</strong></div><button class="cs-cta">Request Quote</button></div></div></div>
+    <div class="cs-card"><div class="cs-img c6"><span class="cs-tag">Management</span><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" opacity=".8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div class="cs-body"><h3>Project Management</h3><p>Experienced project managers to oversee your build — timelines, budgets, and quality control.</p><div class="cs-meta"><div class="cs-price">From <strong>UGX 2,000,000</strong></div><button class="cs-cta">Request Quote</button></div></div></div>
+  </div>
+  <section class="cta-banner"><h2>Ready to Start Your Project?</h2><p>Tell us what you need and we'll connect you with the right professionals today.</p><div class="cta-buttons"><button class="btn-primary" onclick="goTo('contracts')">Post a Contract</button><button class="btn-outline" onclick="goTo('consult')">Get a Consultation</button></div></section>
+  <footer><div class="footer-top"><div class="footer-brand"><div class="footer-logo">SUB<span>TOTAL</span></div><div class="ent-tag"><a href="#">SUBTOTAL ENTERPRISE</a></div><p>From Land to Landmark.</p></div><div class="footer-col"><h5>Services</h5><a onclick="goTo('land')">Land Listings</a><a onclick="goTo('construction')">Construction</a><a onclick="goTo('contracts')">Post a Contract</a><a onclick="goTo('consult')">Consultation</a></div><div class="footer-col"><h5>Support</h5><a href="#">Contact Us</a><a href="#">Privacy Policy</a><a href="#">FAQ</a></div></div><div class="footer-bottom"><p>© 2025 SUBTOTAL. A SUBTOTAL Enterprise Company.</p><p>Kampala, Uganda</p></div></footer>
+</div>
+
+<!-- LAND -->
+<div class="page" id="page-land">
+  <section class="page-hero"><div class="breadcrumb"><a onclick="goTo('home')">Home</a><span>›</span> Land Listings</div><h1>Buy & Sell <span>Land</span><br>Across Uganda</h1><p>Browse verified land plots for sale, or list your own. Residential, commercial, agricultural — all in one place.</p></section>
+  <div class="search-section"><div class="search-row"><div class="search-field"><label>Location</label><input type="text" placeholder="e.g. Kampala, Wakiso..."></div><div class="search-field" style="max-width:150px;"><label>Type</label><select><option>All Types</option><option>Residential</option><option>Commercial</option><option>Agricultural</option></select></div><div class="search-field" style="max-width:150px;"><label>Budget</label><select><option>Any Price</option><option>Under 50M UGX</option><option>50M–200M UGX</option><option>200M+ UGX</option></select></div><button class="search-btn">Search Land</button></div></div>
+  <div class="toolbar"><div class="toolbar-left"><button class="filter-btn active">All</button><button class="filter-btn">For Sale</button><button class="filter-btn">Residential</button><button class="filter-btn">Commercial</button><button class="filter-btn">Agricultural</button></div><span class="results-count">Showing <strong>6</strong> of 500+ listings</span></div>
+  <section class="listings-section"><div class="listings-grid">
+    <div class="listing-card"><div class="listing-img p1"><span class="listing-badge badge-featured">Featured</span></div><div class="listing-body"><div class="listing-location">📍 Kira, Wakiso District</div><h3>Prime Residential Plot – Kira</h3><div class="listing-price">UGX 85,000,000</div><div class="listing-details"><div><div class="detail-label">Size</div><div class="detail-value">50 decimals</div></div><div><div class="detail-label">Type</div><div class="detail-value">Residential</div></div><div><div class="detail-label">Title</div><div class="detail-value">Mailo</div></div></div><div class="listing-footer"><span style="font-size:12px;color:var(--muted);">Verified Seller</span><button class="listing-cta">View Plot</button></div></div></div>
+    <div class="listing-card"><div class="listing-img p2"><span class="listing-badge badge-sale">For Sale</span></div><div class="listing-body"><div class="listing-location">📍 Ntinda, Kampala</div><h3>Commercial Land – Ntinda</h3><div class="listing-price">UGX 320,000,000</div><div class="listing-details"><div><div class="detail-label">Size</div><div class="detail-value">100 decimals</div></div><div><div class="detail-label">Type</div><div class="detail-value">Commercial</div></div><div><div class="detail-label">Title</div><div class="detail-value">Freehold</div></div></div><div class="listing-footer"><span style="font-size:12px;color:var(--muted);">Verified Seller</span><button class="listing-cta">View Plot</button></div></div></div>
+    <div class="listing-card"><div class="listing-img p3"><span class="listing-badge badge-sale">For Sale</span></div><div class="listing-body"><div class="listing-location">📍 Mukono District</div><h3>Agricultural Land – Mukono</h3><div class="listing-price">UGX 45,000,000 / acre</div><div class="listing-details"><div><div class="detail-label">Size</div><div class="detail-value">5 Acres</div></div><div><div class="detail-label">Type</div><div class="detail-value">Agricultural</div></div><div><div class="detail-label">Title</div><div class="detail-value">Leasehold</div></div></div><div class="listing-footer"><span style="font-size:12px;color:var(--muted);">Verified Seller</span><button class="listing-cta">View Plot</button></div></div></div>
+    <div class="listing-card"><div class="listing-img p4"><span class="listing-badge badge-featured">Featured</span></div><div class="listing-body"><div class="listing-location">📍 Entebbe, Wakiso</div><h3>Lakeside Residential Plot</h3><div class="listing-price">UGX 180,000,000</div><div class="listing-details"><div><div class="detail-label">Size</div><div class="detail-value">75 decimals</div></div><div><div class="detail-label">Type</div><div class="detail-value">Residential</div></div><div><div class="detail-label">Title</div><div class="detail-value">Freehold</div></div></div><div class="listing-footer"><span style="font-size:12px;color:var(--muted);">Verified Seller</span><button class="listing-cta">View Plot</button></div></div></div>
+    <div class="listing-card"><div class="listing-img p5"><span class="listing-badge badge-sale">For Sale</span></div><div class="listing-body"><div class="listing-location">📍 Naalya, Kampala</div><h3>Industrial Plot – Naalya</h3><div class="listing-price">UGX 550,000,000</div><div class="listing-details"><div><div class="detail-label">Size</div><div class="detail-value">200 decimals</div></div><div><div class="detail-label">Type</div><div class="detail-value">Industrial</div></div><div><div class="detail-label">Title</div><div class="detail-value">Freehold</div></div></div><div class="listing-footer"><span style="font-size:12px;color:var(--muted);">Verified Seller</span><button class="listing-cta">View Plot</button></div></div></div>
+    <div class="listing-card"><div class="listing-img p6"><span class="listing-badge badge-sale">For Sale</span></div><div class="listing-body"><div class="listing-location">📍 Gayaza, Wakiso</div><h3>Affordable Plot – Gayaza Road</h3><div class="listing-price">UGX 22,000,000</div><div class="listing-details"><div><div class="detail-label">Size</div><div class="detail-value">25 decimals</div></div><div><div class="detail-label">Type</div><div class="detail-value">Residential</div></div><div><div class="detail-label">Title</div><div class="detail-value">Mailo</div></div></div><div class="listing-footer"><span style="font-size:12px;color:var(--muted);">Verified Seller</span><button class="listing-cta">View Plot</button></div></div></div>
+  </div></section>
+  <div class="sell-banner"><div><h2>Have Land to Sell?</h2><p>List your plot and reach thousands of verified buyers across Uganda. Free to list.</p></div><button class="btn-white">List Your Land →</button></div>
+  <footer><div class="footer-top"><div class="footer-brand"><div class="footer-logo">SUB<span>TOTAL</span></div><div class="ent-tag"><a href="#">SUBTOTAL ENTERPRISE</a></div><p>From Land to Landmark.</p></div><div class="footer-col"><h5>Services</h5><a onclick="goTo('land')">Land Listings</a><a onclick="goTo('construction')">Construction</a><a onclick="goTo('contracts')">Post a Contract</a><a onclick="goTo('consult')">Consultation</a></div><div class="footer-col"><h5>Support</h5><a href="#">Contact Us</a><a href="#">Privacy Policy</a><a href="#">FAQ</a></div></div><div class="footer-bottom"><p>© 2025 SUBTOTAL. A SUBTOTAL Enterprise Company.</p><p>Kampala, Uganda</p></div></footer>
+</div>
+
+<!-- CONTRACTS -->
+<div class="page" id="page-contracts">
+  <section class="page-hero"><div class="breadcrumb"><a onclick="goTo('home')">Home</a><span>›</span> Contracts</div><h1>Browse <span>Contracts.</span><br>Or Post One.</h1><p>Find open construction contracts to bid on, or post your own project and receive bids from verified contractors.</p></section>
+  <div class="contracts-layout">
+    <div>
+      <div class="tabs"><div class="tab active" onclick="switchContractTab('browse',this)">Browse Open Contracts</div><div class="tab" onclick="switchContractTab('post',this)">Post a Contract</div></div>
+      <div id="ct-browse">
+        <div class="contracts-list">
+          <div class="contract-card"><div class="contract-top"><div class="contract-title">4-Bedroom House Build – Ntinda, Kampala</div><span class="cbadge cbadge-open">Open</span></div><div class="contract-desc">Full 4-bedroom residential build including foundation, walling, roofing, plumbing, and electrical. Architectural drawings available.</div><div class="contract-meta"><span class="meta-item">📍 Ntinda, Kampala</span><span class="meta-item">💰 150M–200M UGX</span><span class="meta-item">⏱ 8 months</span></div><div class="contract-footer"><span class="bids-count"><strong>7</strong> bids received</span><button class="view-btn">View & Bid</button></div></div>
+          <div class="contract-card"><div class="contract-top"><div class="contract-title">Office Renovation – Kololo, Kampala</div><span class="cbadge cbadge-open">Open</span></div><div class="contract-desc">Renovation of a 400sqm office space — partition walls, ceilings, flooring, painting, and electrical upgrades.</div><div class="contract-meta"><span class="meta-item">📍 Kololo, Kampala</span><span class="meta-item">💰 30M–50M UGX</span><span class="meta-item">⏱ 6 weeks</span></div><div class="contract-footer"><span class="bids-count"><strong>4</strong> bids received</span><button class="view-btn">View & Bid</button></div></div>
+          <div class="contract-card"><div class="contract-top"><div class="contract-title">Architectural Design – 3-Bedroom Bungalow</div><span class="cbadge cbadge-review">Under Review</span></div><div class="contract-desc">Complete architectural drawings for a 3-bedroom bungalow. Floor plans, elevations, and 3D renders required.</div><div class="contract-meta"><span class="meta-item">📍 Wakiso District</span><span class="meta-item">💰 3M–8M UGX</span><span class="meta-item">⏱ 3 weeks</span></div><div class="contract-footer"><span class="bids-count"><strong>12</strong> bids received</span><button class="view-btn">View Details</button></div></div>
+          <div class="contract-card"><div class="contract-top"><div class="contract-title">Commercial Plaza Build – Mukono</div><span class="cbadge cbadge-open">Open</span></div><div class="contract-desc">3-storey commercial plaza with retail ground floor and office upper floors. Structural drawings complete.</div><div class="contract-meta"><span class="meta-item">📍 Mukono District</span><span class="meta-item">💰 800M+ UGX</span><span class="meta-item">⏱ 18 months</span></div><div class="contract-footer"><span class="bids-count"><strong>3</strong> bids received</span><button class="view-btn">View & Bid</button></div></div>
+        </div>
+      </div>
+      <div id="ct-post" style="display:none;">
+        <div class="form-group"><label>Project Title</label><input type="text" placeholder="e.g. 3-Bedroom Residential House Build – Kampala"></div>
+        <div class="form-row"><div class="form-group"><label>Project Type</label><select><option>Select type</option><option>Residential Build</option><option>Commercial Build</option><option>Renovation</option><option>Architectural Design</option></select></div><div class="form-group"><label>Location</label><input type="text" placeholder="e.g. Kampala, Wakiso..."></div></div>
+        <div class="form-group"><label>Project Description</label><textarea placeholder="Describe your project in detail..."></textarea></div>
+        <div class="form-row"><div class="form-group"><label>Budget Range</label><select><option>Select budget</option><option>Under 10M UGX</option><option>10M–50M UGX</option><option>50M–200M UGX</option><option>200M+ UGX</option></select></div><div class="form-group"><label>Start Date</label><input type="date"></div></div>
+        <div class="form-group"><label>Upload Documents (optional)</label><div class="upload-box"><p>Drag & drop or <span>browse to upload</span></p><p style="font-size:11px;margin-top:4px;">PDF, DWG, JPG — max 20MB</p></div></div>
+        <div class="form-group"><label>Contact Number</label><input type="tel" placeholder="+256 700 000 000"></div>
+        <button class="submit-btn">Post Contract & Receive Bids →</button>
+      </div>
+    </div>
+    <div>
+      <div class="sidebar-card"><h3>Platform Stats</h3><div class="stats-grid"><div class="stat-box"><div class="num">120+</div><div class="lbl">Open Contracts</div></div><div class="stat-box"><div class="num">200+</div><div class="lbl">Contractors</div></div><div class="stat-box"><div class="num">48hrs</div><div class="lbl">Avg First Bid</div></div><div class="stat-box"><div class="num">94%</div><div class="lbl">Satisfaction</div></div></div></div>
+      <div class="sidebar-card"><h3>Tips for a Great Post</h3><div class="tip-item"><div class="tip-num">1</div><p>Be specific — include dimensions, materials, and exact location.</p></div><div class="tip-item"><div class="tip-num">2</div><p>Upload drawings — projects with docs get 3x more quality bids.</p></div><div class="tip-item"><div class="tip-num">3</div><p>Set a realistic budget to attract serious contractors.</p></div></div>
+      <div class="reg-cta"><h3>Are You a Contractor?</h3><p>Register and start bidding on projects across Uganda.</p><button>Register as Contractor →</button></div>
+    </div>
+  </div>
+  <footer><div class="footer-top"><div class="footer-brand"><div class="footer-logo">SUB<span>TOTAL</span></div><div class="ent-tag"><a href="#">SUBTOTAL ENTERPRISE</a></div><p>From Land to Landmark.</p></div><div class="footer-col"><h5>Services</h5><a onclick="goTo('land')">Land Listings</a><a onclick="goTo('construction')">Construction</a><a onclick="goTo('contracts')">Post a Contract</a><a onclick="goTo('consult')">Consultation</a></div><div class="footer-col"><h5>Support</h5><a href="#">Contact Us</a><a href="#">Privacy Policy</a><a href="#">FAQ</a></div></div><div class="footer-bottom"><p>© 2025 SUBTOTAL. A SUBTOTAL Enterprise Company.</p><p>Kampala, Uganda</p></div></footer>
+</div>
+
+<!-- CONSULT -->
+<div class="page" id="page-consult">
+  <section class="page-hero"><div class="breadcrumb"><a onclick="goTo('home')">Home</a><span>›</span> Consultation</div><h1>Expert <span>Consultation</span><br>on Demand</h1><p>Get professional advice on construction planning, land matters, budgeting, and project management.</p></section>
+  <div class="section-header" style="padding:50px 5% 0;"><div class="section-tag">Choose Your Session</div><h2>What Do You Need Help With?</h2></div>
+  <div class="types-grid">
+    <div class="type-card sel" onclick="selType(this)"><div class="type-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><h3>Construction Planning</h3><p>Project scope, timelines, and contractor selection.</p><span class="type-price">From UGX 150,000</span></div>
+    <div class="type-card" onclick="selType(this)"><div class="type-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div><h3>Land & Legal Advice</h3><p>Title verification, land disputes, and purchase agreements.</p><span class="type-price">From UGX 200,000</span></div>
+    <div class="type-card" onclick="selType(this)"><div class="type-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><h3>Budget & Cost Planning</h3><p>Bill of quantities, cost estimates, and financial planning.</p><span class="type-price">From UGX 120,000</span></div>
+    <div class="type-card" onclick="selType(this)"><div class="type-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>Project Management</h3><p>Oversight advice, contractor management, milestone tracking.</p><span class="type-price">From UGX 180,000</span></div>
+  </div>
+  <div class="section-header" style="padding:10px 5% 0;"><div class="section-tag">Our Experts</div><h2>Meet the Consultants</h2></div>
+  <div class="experts-grid">
+    <div class="expert-card"><div class="expert-avatar av-a">JO</div><div class="expert-name">James Okullo</div><div class="expert-role">Senior Architect & Construction Planner</div><div class="expert-bio">15 years designing and overseeing residential and commercial projects across Uganda.</div><div class="expert-meta"><div class="expert-rating">★★★★★ 4.9</div><div class="expert-rate">From <strong>UGX 200,000</strong></div></div><button class="book-btn">Book Session</button></div>
+    <div class="expert-card"><div class="expert-avatar av-b">PN</div><div class="expert-name">Patricia Namutebi</div><div class="expert-role">Land Law Specialist & Property Consultant</div><div class="expert-bio">Qualified lawyer with 10 years specialising in Ugandan land law and property transactions.</div><div class="expert-meta"><div class="expert-rating">★★★★★ 4.8</div><div class="expert-rate">From <strong>UGX 250,000</strong></div></div><button class="book-btn">Book Session</button></div>
+    <div class="expert-card"><div class="expert-avatar av-c">DM</div><div class="expert-name">David Mugisha</div><div class="expert-role">Quantity Surveyor & Cost Estimator</div><div class="expert-bio">Certified quantity surveyor with expertise in bills of quantities and cost planning.</div><div class="expert-meta"><div class="expert-rating">★★★★★ 4.7</div><div class="expert-rate">From <strong>UGX 150,000</strong></div></div><button class="book-btn">Book Session</button></div>
+    <div class="expert-card"><div class="expert-avatar av-d">SK</div><div class="expert-name">Sarah Kabahenda</div><div class="expert-role">Project Manager & Construction Supervisor</div><div class="expert-bio">PMP-certified with 12 years overseeing construction projects from inception to handover.</div><div class="expert-meta"><div class="expert-rating">★★★★★ 4.8</div><div class="expert-rate">From <strong>UGX 180,000</strong></div></div><button class="book-btn">Book Session</button></div>
+  </div>
+  <div class="booking-layout">
+    <div class="booking-form">
+      <h2>Book a Session</h2>
+      <p>Fill in your details and we'll confirm your consultation within 24 hours.</p>
+      <div class="form-row"><div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name"></div><div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+256 700 000 000"></div></div>
+      <div class="form-row"><div class="form-group"><label>Consultation Type</label><select><option>Construction Planning</option><option>Land & Legal Advice</option><option>Budget & Cost Planning</option><option>Project Management</option></select></div><div class="form-group"><label>Session Format</label><select><option>Video Call</option><option>Phone Call</option><option>In Person – Kampala</option></select></div></div>
+      <div class="form-group"><label>Preferred Date</label><input type="date"></div>
+      <div class="form-group"><label>Available Time Slots</label><div class="slots-grid"><div class="slot sel" onclick="selSlot(this)">8:00 AM</div><div class="slot" onclick="selSlot(this)">9:00 AM</div><div class="slot" onclick="selSlot(this)">10:00 AM</div><div class="slot na">11:00 AM</div><div class="slot" onclick="selSlot(this)">12:00 PM</div><div class="slot na">1:00 PM</div><div class="slot" onclick="selSlot(this)">2:00 PM</div><div class="slot" onclick="selSlot(this)">3:00 PM</div></div></div>
+      <div class="form-group"><label>Describe Your Situation</label><textarea placeholder="Briefly describe your project or issue..."></textarea></div>
+      <button class="submit-btn">Confirm Booking →</button>
+    </div>
+    <div>
+      <div class="summary-card"><h3>Booking Summary</h3><div class="summary-row"><span class="s-label">Type</span><span class="s-value">Construction Planning</span></div><div class="summary-row"><span class="s-label">Expert</span><span class="s-value">James Okullo</span></div><div class="summary-row"><span class="s-label">Format</span><span class="s-value">Video Call</span></div><div class="summary-row"><span class="s-label">Duration</span><span class="s-value">60 minutes</span></div><div class="summary-total"><span>Session Fee</span><strong>UGX 200,000</strong></div></div>
+      <div class="faq-card"><h3>Common Questions</h3><div class="faq-item"><div class="faq-q">How do I pay?</div><div class="faq-a">Via Mobile Money or bank transfer after booking confirmation.</div></div><div class="faq-item"><div class="faq-q">Can I reschedule?</div><div class="faq-a">Yes, up to 24 hours before your session at no extra charge.</div></div><div class="faq-item"><div class="faq-q">Are sessions confidential?</div><div class="faq-a">Absolutely. All consultations are private.</div></div></div>
+    </div>
+  </div>
+  <footer><div class="footer-top"><div class="footer-brand"><div class="footer-logo">SUB<span>TOTAL</span></div><div class="ent-tag"><a href="#">SUBTOTAL ENTERPRISE</a></div><p>From Land to Landmark.</p></div><div class="footer-col"><h5>Services</h5><a onclick="goTo('land')">Land Listings</a><a onclick="goTo('construction')">Construction</a><a onclick="goTo('contracts')">Post a Contract</a><a onclick="goTo('consult')">Consultation</a></div><div class="footer-col"><h5>Support</h5><a href="#">Contact Us</a><a href="#">Privacy Policy</a><a href="#">FAQ</a></div></div><div class="footer-bottom"><p>© 2025 SUBTOTAL. A SUBTOTAL Enterprise Company.</p><p>Kampala, Uganda</p></div></footer>
+</div>
+
+<!-- AUTH -->
+<div class="page" id="page-auth">
+  <div class="auth-layout">
+    <div class="auth-left"><div class="left-inner"><div class="left-badge">Uganda's #1 Construction Platform</div><h2>Build Smarter.<br>Connect <span>Faster.</span></h2><p>Join thousands of clients, contractors, and professionals already using SUBTOTAL.</p><div class="benefits"><div class="benefit"><div class="benefit-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="benefit-text"><h4>Browse Land & Construction Services</h4><p>Access 500+ verified listings and trusted contractors.</p></div></div><div class="benefit"><div class="benefit-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg></div><div class="benefit-text"><h4>Post & Bid on Contracts</h4><p>Post your project and receive competitive bids.</p></div></div><div class="benefit"><div class="benefit-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="benefit-text"><h4>Verified & Secure</h4><p>All users and listings are verified for your protection.</p></div></div></div></div></div>
+    <div class="auth-right">
+      <div class="auth-tabs"><div class="auth-tab active" onclick="switchAuthTab('signup',this)">Create Account</div><div class="auth-tab" onclick="switchAuthTab('login',this)">Sign In</div></div>
+      <div id="at-signup">
+        <div class="role-selector"><label>I am a...</label><div class="role-options"><div class="role-opt sel" onclick="selRole(this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Client</span></div><div class="role-opt" onclick="selRole(this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg><span>Contractor</span></div><div class="role-opt" onclick="selRole(this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Professional</span></div></div></div>
+        <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" placeholder="First name"></div><div class="form-group"><label>Last Name</label><input type="text" placeholder="Last name"></div></div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+256 700 000 000"></div>
+        <div class="form-group"><label>Password</label><div class="password-wrap"><input type="password" id="pw1" placeholder="Create a strong password"><button class="toggle-pw" onclick="togglePw('pw1')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="checkbox-row"><input type="checkbox" id="terms"><label for="terms">I agree to SUBTOTAL's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label></div>
+        <button class="auth-submit">Create My Account →</button>
+        <div class="divider"><span>or</span></div>
+        <button class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
+        <div class="switch-text">Already have an account? <a onclick="switchAuthTab('login',null)">Sign in</a></div>
+      </div>
+      <div id="at-login" style="display:none;">
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Password</label><div class="password-wrap"><input type="password" id="pw2" placeholder="Your password"><button class="toggle-pw" onclick="togglePw('pw2')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="forgot-row"><a href="#">Forgot password?</a></div>
+        <div class="checkbox-row"><input type="checkbox" id="remember"><label for="remember">Keep me signed in</label></div>
+        <button class="auth-submit">Sign In to SUBTOTAL →</button>
+        <div class="divider"><span>or</span></div>
+        <button class="social-btn"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
+        <div class="switch-text">No account? <a onclick="switchAuthTab('signup',null)">Create one free</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const navEl=document.getElementById('nav-'+page);
+  if(navEl) navEl.classList.add('active');
+  window.scrollTo(0,0);
+}
+function switchContractTab(tab,el){
+  document.querySelectorAll('#page-contracts .tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('ct-browse').style.display=tab==='browse'?'block':'none';
+  document.getElementById('ct-post').style.display=tab==='post'?'block':'none';
+}
+function switchAuthTab(tab,el){
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  else document.querySelectorAll('.auth-tab')[tab==='signup'?0:1].classList.add('active');
+  document.getElementById('at-signup').style.display=tab==='signup'?'block':'none';
+  document.getElementById('at-login').style.display=tab==='login'?'block':'none';
+}
+function selRole(el){
+  document.querySelectorAll('.role-opt').forEach(r=>{r.classList.remove('sel');r.querySelector('svg').setAttribute('stroke','#6B7280');});
+  el.classList.add('sel');el.querySelector('svg').setAttribute('stroke','#2563EB');
+}
+function selType(el){
+  document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function selSlot(el){
+  if(el.classList.contains('na')) return;
+  document.querySelectorAll('.slot').forEach(s=>s.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function togglePw(id){
+  const i=document.getElementById(id);
+  i.type=i.type==='password'?'text':'password';
+}
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    this.closest('.toolbar-left').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
