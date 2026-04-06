@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SUBTOTAL – From Land to Landmark</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--deep:#1B3F6B;--royal:#2563EB;--charcoal:#1E1E1E;--white:#FFFFFF;--light:#F5F5F5;--mid:#E8E8E8;--muted:#6B7280;}
 html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--charcoal);overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;bckground:var(--white);color:var(--charcoal);overflow-x:hidden;}
 .page{display:none;}
 .page.active{display:block;}
 .top-bar{background:var(--charcoal);padding:7px 5%;display:flex;justify-content:flex-end;}
@@ -514,5 +515,13 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
   });
 });
 </script>
+  <script>
+  const { createClient } = supabase;
+  const supabaseClient = createClient(
+    'https://dgknhflecsxykkaipzas.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRna25oZmxlY3N4eWtrYWlwemFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MzA0NTcsImV4cCI6MjA5MTAwNjQ1N30.6CK7MWFsoMeiYDDJHGWewC9fjc8GAClk5TkLWbDXsj0'
+  );
+</script>
 </body>
 </html>
+XTEST
