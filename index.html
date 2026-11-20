@@ -42,7 +42,7 @@ nav{background:var(--white);height:72px;display:flex;align-items:center;border-b
 
 .brand{display:flex;align-items:center;cursor:pointer;}
 
-.brand-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--deep);line-height:1;}
+.brand-name{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--deep);line-height:1;}
 
 .brand-tagline{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
 
@@ -708,6 +708,8 @@ footer{background:var(--charcoal);padding:48px 0 20px;}
 
 /* RESPONSIVE */
 
+@media(max-width:1000px){.brand-name{font-size:18px;}}
+@media(max-width:480px){.brand-name{font-size:15px;}.brand-tagline{font-size:9px;letter-spacing:1px;}}
 @media(max-width:768px){
 
   .nav-links,.nav-cta{display:none;}
@@ -760,7 +762,7 @@ footer{background:var(--charcoal);padding:48px 0 20px;}
 
 <!-- NAV -->
 
-<nav><div class="nav-inner"><div class="brand" onclick="goTo('home')"><div><div class="brand-name">Subtotal Plus</div><div class="brand-tagline">Enterprises Limited</div></div></div><ul class="nav-links"><li><a onclick="goTo('about')" id="nav-about">About</a></li><li><a onclick="goTo('services')" id="nav-services">Services</a></li><li><a onclick="goTo('projects')" id="nav-projects">Projects</a></li><li><a onclick="goTo('contact')" id="nav-contact">Contact</a></li></ul><button class="nav-cta" onclick="goTo('consult')">Book Consultation</button><button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button></div></nav>
+<nav><div class="nav-inner"><div class="brand" onclick="goTo('home')"><div><div class="brand-name">Subtotal Plus Enterprises Limited</div><div class="brand-tagline">Construction &amp; Development</div></div></div><ul class="nav-links"><li><a onclick="goTo('about')" id="nav-about">About</a></li><li><a onclick="goTo('services')" id="nav-services">Services</a></li><li><a onclick="goTo('projects')" id="nav-projects">Projects</a></li><li><a onclick="goTo('contact')" id="nav-contact">Contact</a></li></ul><button class="nav-cta" onclick="goTo('consult')">Book Consultation</button><button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button></div></nav>
 
 <div class="mobile-menu" id="mobileMenu"><a onclick="goTo('about');toggleMenu()">About</a><a onclick="goTo('services');toggleMenu()">Services</a><a onclick="goTo('projects');toggleMenu()">Projects</a><a onclick="goTo('contact');toggleMenu()">Contact</a><button class="mob-cta" onclick="goTo('consult');toggleMenu()">Book Consultation</button></div>
 
